@@ -50,7 +50,7 @@ Blockly.Blocks['math_number'] = {
 Blockly.Blocks.math_integer = {
     init: function () {
         this.appendDummyInput()
-            .appendField(new Blockly.FieldTextInput('10', Blockly.FieldTextInput.numberValidator), 'INT_VALUE');
+                .appendField(new Blockly.FieldTextInput('10', Blockly.FieldTextInput.numberValidator), 'INT_VALUE');
 
         this.setOutput(true, 'Number');
         this.setColour(colorPalette.getColor('math'));
@@ -60,7 +60,7 @@ Blockly.Blocks.math_integer = {
 Blockly.Blocks.math_int_angle = {
     init: function () {
         this.appendDummyInput()
-            .appendField(new Blockly.FieldAngle('90', Blockly.FieldTextInput.numberValidator), 'ANGLE_VALUE');
+                .appendField(new Blockly.FieldAngle('90', Blockly.FieldTextInput.numberValidator), 'ANGLE_VALUE');
 
         this.setOutput(true, 'Number');
         this.setColour(colorPalette.getColor('math'));
@@ -238,20 +238,28 @@ Blockly.Blocks['math_change'] = {
      * @this Blockly.Block
      */
     init: function () {
-        this.setHelpUrl(Blockly.Msg.MATH_CHANGE_HELPURL);
-        this.setColour(colorPalette.getColor('math'));
-        this.interpolateMsg(
-                // TODO: Combine these messages instead of using concatenation.
-                Blockly.Msg.MATH_CHANGE_TITLE_CHANGE + ' %1 ' +
-                Blockly.Msg.MATH_CHANGE_INPUT_BY + ' %2',
-                ['VAR', new Blockly.FieldVariable(Blockly.Msg.MATH_CHANGE_TITLE_ITEM)],
-                ['DELTA', 'Number', Blockly.ALIGN_RIGHT],
-                Blockly.ALIGN_RIGHT);
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
+        this.jsonInit({
+            "message0": Blockly.Msg.MATH_CHANGE_TITLE,
+            "args0": [
+                {
+                    "type": "field_variable",
+                    "name": "VAR",
+                    "variable": Blockly.Msg.MATH_CHANGE_TITLE_ITEM
+                },
+                {
+                    "type": "input_value",
+                    "name": "DELTA",
+                    "check": "Number"
+                }
+            ],
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": colorPalette.getColor('math'),
+            "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
+        });
         // Assign 'this' to a variable for use in the tooltip closure below.
         var thisBlock = this;
-        /*this.setTooltip(function() {
+        /* this.setTooltip(function() {
          return Blockly.Msg.MATH_CHANGE_TOOLTIP.replace('%1',
          thisBlock.getFieldValue('VAR'));
          });*/
